@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 
 namespace HackedBrain.BotBuilder.State.Conditional
 {
+
     internal sealed class ConditionalStatePropertyAccessor<T> : IStatePropertyAccessor<T>
     {
         public ConditionalStatePropertyAccessor()
@@ -25,7 +26,7 @@ namespace HackedBrain.BotBuilder.State.Conditional
 
             if (selectedAccessor == null)
             {
-                throw new Exception($"No conditional accessor was selected for the given turn context and no default accessor is registered.");
+                throw new NoStatePropertyAccessorCouldBeSelectedException($"No conditional accessor was selected for the given turn context and no default accessor is registered.");
             }
 
             return selectedAccessor;

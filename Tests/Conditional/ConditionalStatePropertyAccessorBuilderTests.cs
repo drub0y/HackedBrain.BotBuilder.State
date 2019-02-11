@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 using Moq;
 using Xunit;
 
@@ -90,10 +91,10 @@ namespace HackedBrain.BotBuilder.State.Conditional.Tests
                     .When(propertyCCondition, propertyC)
                     .Build();
 
-                var selectedStatePropertyAccessor = propertyAccessor.Should().BeOfType<ConditionalStatePropertyAccessor<string>>().Subject;
+                var conditionalStatePropertyAccessor = propertyAccessor.Should().BeOfType<ConditionalStatePropertyAccessor<string>>().Subject;
 
-                selectedStatePropertyAccessor.DefaultAccessor.Should().Be(propertyA);
-                selectedStatePropertyAccessor.ConditionalAccessors.Should().BeEquivalentTo((propertyBCondition, propertyB), (propertyCCondition, propertyC));
+                conditionalStatePropertyAccessor.DefaultAccessor.Should().Be(propertyA);
+                conditionalStatePropertyAccessor.ConditionalAccessors.Should().BeEquivalentTo((propertyBCondition, propertyB), (propertyCCondition, propertyC));
             }
         }
     }
