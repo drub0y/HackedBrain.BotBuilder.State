@@ -22,12 +22,9 @@ namespace HackedBrain.BotBuilder.State.Conditional.Tests
                 var skypePropertyAccessor = conversationState.CreateProperty<string>("PropertySkype");
                 var skypePropertyCondition = new Func<ITurnContext, bool>(tc => tc.Activity.ChannelId == "skype");
 
-                var propertyAccessor = new ConditionalStatePropertyAccessorBuilder<string>()
-                    .When(teamsPropertyCondition, teamsPropertyAccessor)
-                    .When(skypePropertyCondition, skypePropertyAccessor)
-                    .Build();
-
-                var conditionalStatePropertyAccessor = propertyAccessor.Should().BeOfType<ConditionalStatePropertyAccessor<string>>().Subject;
+                var conditionalStatePropertyAccessor = new ConditionalStatePropertyAccessor<string>();
+                conditionalStatePropertyAccessor.ConditionalAccessors.Add((teamsPropertyCondition, teamsPropertyAccessor));
+                conditionalStatePropertyAccessor.ConditionalAccessors.Add((skypePropertyCondition, skypePropertyAccessor));
 
                 var testActivity = new Activity
                 {
@@ -49,13 +46,10 @@ namespace HackedBrain.BotBuilder.State.Conditional.Tests
 
                 var defaultPropertyAccessor = conversationState.CreateProperty<string>("Default");
 
-                var propertyAccessor = new ConditionalStatePropertyAccessorBuilder<string>()
-                    .Default(defaultPropertyAccessor)
-                    .When(tc => false, conversationState.CreateProperty<string>("PropertyA"))
-                    .When(tc => false, conversationState.CreateProperty<string>("PropertyB"))
-                    .Build();
-
-                var conditionalStatePropertyAccessor = propertyAccessor.Should().BeOfType<ConditionalStatePropertyAccessor<string>>().Subject;
+                var conditionalStatePropertyAccessor = new ConditionalStatePropertyAccessor<string>();
+                conditionalStatePropertyAccessor.DefaultAccessor = defaultPropertyAccessor;
+                conditionalStatePropertyAccessor.ConditionalAccessors.Add((tc => false, conversationState.CreateProperty<string>("PropertyA")));
+                conditionalStatePropertyAccessor.ConditionalAccessors.Add((tc => false, conversationState.CreateProperty<string>("PropertyB")));
 
                 var selectedPropertyAccessor = conditionalStatePropertyAccessor.SelectAccessorForTurn(Mock.Of<ITurnContext>());
 
@@ -67,12 +61,9 @@ namespace HackedBrain.BotBuilder.State.Conditional.Tests
             {
                 var conversationState = new ConversationState(Mock.Of<IStorage>());
 
-                var propertyAccessor = new ConditionalStatePropertyAccessorBuilder<string>()
-                    .When(tc => false, conversationState.CreateProperty<string>("PropertyA"))
-                    .When(tc => false, conversationState.CreateProperty<string>("PropertyB"))
-                    .Build();
-
-                var conditionalStatePropertyAccessor = propertyAccessor.Should().BeOfType<ConditionalStatePropertyAccessor<string>>().Subject;
+                var conditionalStatePropertyAccessor = new ConditionalStatePropertyAccessor<string>();
+                conditionalStatePropertyAccessor.ConditionalAccessors.Add((tc => false, conversationState.CreateProperty<string>("PropertyA")));
+                conditionalStatePropertyAccessor.ConditionalAccessors.Add((tc => false, conversationState.CreateProperty<string>("PropertyB")));
 
                 var action = new Action(() => conditionalStatePropertyAccessor.SelectAccessorForTurn(Mock.Of<ITurnContext>()));
 
