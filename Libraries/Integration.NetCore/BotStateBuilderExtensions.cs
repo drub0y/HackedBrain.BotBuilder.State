@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Builder;
 
-namespace HackedBrain.BotBuilder.Integration.AspNet.Core
+namespace HackedBrain.BotBuilder.Integration
 {
     public static class BotStateBuilderExtensions
     {

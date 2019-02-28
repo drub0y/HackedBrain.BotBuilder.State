@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace HackedBrain.BotBuilder.Integration.AspNet.Core
+namespace HackedBrain.BotBuilder.Integration
 {
     public class BotStateConfigurationBuilder
     {
@@ -17,6 +17,11 @@ namespace HackedBrain.BotBuilder.Integration.AspNet.Core
 
         public BotStateConfigurationBuilder UseBotState(BotState botState)
         {
+            if (botState == null)
+            {
+                throw new ArgumentNullException(nameof(botState));
+            }
+
             _services.AddSingleton<BotState>(botState);
             _services.AddSingleton(botState.GetType(), botState);
 

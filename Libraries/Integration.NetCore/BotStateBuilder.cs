@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
-namespace HackedBrain.BotBuilder.Integration.AspNet.Core
+namespace HackedBrain.BotBuilder.Integration
 {
     public class BotStateBuilder<TBotState>
         where TBotState : BotState
@@ -49,6 +49,11 @@ namespace HackedBrain.BotBuilder.Integration.AspNet.Core
 
             if(_botStateFactory == null)
             {
+                if(_storage == null)
+                {
+                    throw new InvalidOperationException($"No {nameof(IStorage)} implementation has been specified. Either specify one using {nameof(UseStorage)}, or supply a custom {nameof(BotState)} factory with {nameof(UseBotStateFactory)}.");
+                }
+
                 botState = (BotState)Activator.CreateInstance(typeof(TBotState), _storage);
             }
             else
