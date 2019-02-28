@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <AssemblyName>HackedBrain.BotBuilder.State.Tests</AssemblyName>
+    <RootNamespace>HackedBrain.BotBuilder.State.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Implementation\Implementation.csproj" />
+    <ProjectReference Include="..\..\Libraries\Core.Implementation\Core.Implementation.csproj" />
   </ItemGroup>
 
 </Project>
